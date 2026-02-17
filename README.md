@@ -1,101 +1,118 @@
-<img src="https://avatars.githubusercontent.com/u/53193414?s=200&v=4" alt="logo" width="200" height="200" align="right">
+# ImmortalWrt MT798x (Linux 6.6)
 
-# Project ImmortalWrt
+本项目是基于 [ImmortalWrt](https://github.com/immortalwrt/immortalwrt) 的 MT798x 平台定制版本，采用最新的 Linux 6.6 内核，专注于提供高性能、稳定的网络体验。
 
-ImmortalWrt is a fork of [OpenWrt](https://openwrt.org), with more packages ported, more devices supported, default optimized profiles and localization modifications for mainland China users.<br/>
-Compared to upstream, we allow to use (non-upstreamable) modifications/hacks to provide better feature/performance/support.
+## ✨ 特性
 
-Default login address: http://192.168.6.1 or http://immortalwrt.lan, username: __root__, password: _none_.
+- **内核版本**: Linux 6.6 LTS
+- **WiFi 驱动**: 集成 MTK 闭源 WiFi 驱动，提供最佳无线性能
+- **插件集成**: 预装 PassWall, SSR-Plus, HomeProxy, TurboACC 等常用插件
+- **硬件加速**: 支持 MTK 硬件网络加速 (WED/HNAT)
+- **多设备支持**: 覆盖主流 MT7981 (Filogic 820) 和 MT7986 (Filogic 830) 设备
 
-## Download
-Built firmware images are available for many architectures and come with a package selection to be used as WiFi home router. To quickly find a factory image usable to migrate from a vendor stock firmware to ImmortalWrt, try the *Firmware Selector*.
+## 📱 支持设备列表
 
-- [ImmortalWrt Firmware Selector](https://firmware-selector.immortalwrt.org/)
+构建配置文件位于 `defconfig/` 目录下。
 
-If your device is supported, please follow the **Info** link to see install instructions or consult the support resources listed below.
+### MT7981 (Filogic 820) - `defconfig/mt7981-ax3000.config`
+- **Xiaomi**: Mi Router AX3000T, Mi Router WR30U
+- **CMCC**: RAX3000M (普通版/eMMC版), A10, XR30
+- **H3C**: NX30 Pro
+- **360**: T7
+- **Konka**: Komi A31
+- **Imou**: LC-HX3001
+- **JCG**: Q30
+- **Livinet**: ZR-3020
+- **Cetron**: CT3003
+- **ABT**: ASR3000
 
-## Development
-To build your own firmware you need a GNU/Linux, BSD or macOS system (case sensitive filesystem required). Cygwin is unsupported because of the lack of a case sensitive file system.<br/>
+### MT7986 (Filogic 830) - `defconfig/mt7986-ax6000.config`
+- **Xiaomi**: Redmi Router AX6000
+- **GL.iNet**: GL-MT6000 (Flint 2)
+- **TP-Link**: TL-XDR6086, TL-XDR6088
+- **JDCloud**: RE-CP-03
 
-  ### Requirements
-  To build with this project, Debian 11 is preferred. And you need use the CPU based on AMD64 architecture, with at least 4GB RAM and 25 GB available disk space. Make sure the __Internet__ is accessible.
+### 特殊版
+- **BPi-R3 Mini**: `defconfig/mt7986-ax4200-bpir3_mini.config`
+- **高功率版 (iPAiLNA)**: `defconfig/mt7975-ipailna-high-power.config`
 
-  The following tools are needed to compile ImmortalWrt, the package names vary between distributions.
+## ⚙️ 默认配置
 
-  - Here is an example for Debian/Ubuntu users:<br/>
-    - Method 1:
-      <details>
-        <summary>Setup dependencies via APT</summary>
+- **管理 IP**: `192.168.6.1`
+- **用户名**: `root`
+- **密码**: *无 (空)*
+- **WiFi SSID**: `ImmortalWrt-2.4G` / `ImmortalWrt-5G`
+- **WiFi 密码**: *无 (开放)*
 
-        ```bash
-        sudo apt update -y
-        sudo apt full-upgrade -y
-        sudo apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
-          bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib \
-          g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev \
-          libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev \
-          libreadline-dev libssl-dev libtool libyaml-dev libz-dev lld llvm lrzsz mkisofs msmtp nano \
-          ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip python3-ply python3-docutils \
-          python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs \
-          upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd
-        ```
-      </details>
-    - Method 2:
-      ```bash
-      sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.org/init_build_environment.sh)'
-      ```
+## 🛠️ 编译指南
 
-  Note:
-  - Do everything as an unprivileged user, not root, without sudo.
-  - Using CPUs based on other architectures should be fine to compile ImmortalWrt, but more hacks are needed - No warranty at all.
-  - You must __not__ have spaces or non-ascii characters in PATH or in the work folders on the drive.
-  - If you're using Windows Subsystem for Linux (or WSL), removing Windows folders from PATH is required, please see [Build system setup WSL](https://openwrt.org/docs/guide-developer/build-system/wsl) documentation.
-  - Using macOS as the host build OS is __not__ recommended. No warranty at all. You can get tips from [Build system setup macOS](https://openwrt.org/docs/guide-developer/build-system/buildroot.exigence.macosx) documentation.
-  - For more details, please see [Build system setup](https://openwrt.org/docs/guide-developer/build-system/install-buildsystem) documentation.
+建议使用 Ubuntu 22.04 LTS 或 Debian 11 进行编译。
 
-  ### Quickstart
-  1. Run `git clone -b openwrt-24.10-6.6 --single-branch --filter=blob:none https://github.com/padavanonly/immortalwrt-mt798x-24.10 immortalwrt-mt798x-24.10` to clone the source code.
-  2. Run `cd immortalwrt-mt798x-24.10` to enter source directory.
-  3. Run `./scripts/feeds update -a` to obtain all the latest package definitions defined in feeds.conf / feeds.conf.default
-  4. Run `./scripts/feeds install -a` to install symlinks for all obtained packages into package/feeds/
-  5. Copy the configuration file for your device from the `defconfig` directory to the project root directory and rename it `.config`
-     
-     ```
-     # MT7981
-     cp -f defconfig/mt7981-ax3000.config .config
+### 1. 准备环境
 
-     # MT7986
-     cp -f defconfig/mt7986-ax6000.config .config
-     
-  6. Run `make` to build your firmware. This will download all sources, build the cross-compile toolchain and then cross-compile the GNU/Linux kernel & all chosen applications for your target system.
+```bash
+sudo apt update -y
+sudo apt full-upgrade -y
+sudo apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
+  bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib \
+  g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev \
+  libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev \
+  libreadline-dev libssl-dev libtool libyaml-dev libz-dev lld llvm lrzsz mkisofs msmtp nano \
+  ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip python3-ply python3-docutils \
+  python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs \
+  upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd
+```
 
-  ### Related Repositories
-  The main repository uses multiple sub-repositories to manage packages of different categories. All packages are installed via the OpenWrt package manager called opkg. If you're looking to develop the web interface or port packages to ImmortalWrt, please find the fitting repository below.
-  - [LuCI Web Interface](https://github.com/immortalwrt/luci): Modern and modular interface to control the device via a web browser.
-  - [ImmortalWrt Packages](https://github.com/immortalwrt/packages): Community repository of ported packages.
-  - [OpenWrt Routing](https://github.com/openwrt/routing): Packages specifically focused on (mesh) routing.
-  - [OpenWrt Video](https://github.com/openwrt/video): Packages specifically focused on display servers and clients (Xorg and Wayland).
+### 2. 克隆源码
 
-## Support Information
-For a list of supported devices see the [OpenWrt Hardware Database](https://openwrt.org/supported_devices)
-  ### Documentation
-  - [Quick Start Guide](https://openwrt.org/docs/guide-quick-start/start)
-  - [User Guide](https://openwrt.org/docs/guide-user/start)
-  - [Developer Documentation](https://openwrt.org/docs/guide-developer/start)
-  - [Technical Reference](https://openwrt.org/docs/techref/start)
+```bash
+git clone https://github.com/flover-luffy/immortalwrt-mt798x-6.6.git
+cd immortalwrt-mt798x-6.6
+```
 
-  ### Support Community
-  - Support Chat: group [@ctcgfw_openwrt_discuss](https://t.me/ctcgfw_openwrt_discuss) on [Telegram](https://telegram.org/).
-  - Support Chat: group [#immortalwrt](https://matrix.to/#/#immortalwrt:matrix.org) on [Matrix](https://matrix.org/).
+### 3. 更新 Feeds
 
-## License
-ImmortalWrt is licensed under [GPL-2.0-only](https://spdx.org/licenses/GPL-2.0-only.html).
+```bash
+./scripts/feeds update -a
+./scripts/feeds install -a
+```
 
-## Acknowledgements
-<table>
-  <tr>
-    <td><a href="https://dlercloud.com/"><img src="https://user-images.githubusercontent.com/22235437/111103249-f9ec6e00-8588-11eb-9bfc-67cc55574555.png" width="183" height="52" border="0" alt="Dler Cloud"></a></td>
-    <td><a href="https://www.jetbrains.com/"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_square.png" width="120" height="120" border="0" alt="JetBrains Black Box Logo logo"></a></td>
-    <td><a href="https://sourceforge.net/"><img src="https://sourceforge.net/sflogo.php?type=17&group_id=3663829" alt="SourceForge" width=200></a></td>
-  </tr>
-</table>
+### 4. 加载配置
+
+根据目标设备选择对应的配置文件复制到 `.config`。
+
+**例如编译 Redmi AX6000:**
+```bash
+cp -f defconfig/mt7986-ax6000.config .config
+```
+
+**例如编译 CMCC RAX3000M / Xiaomi AX3000T:**
+```bash
+cp -f defconfig/mt7981-ax3000.config .config
+```
+
+### 5. 定制固件 (可选)
+
+```bash
+make menuconfig
+```
+
+> [!TIP]
+> 如果你需要调整内核设置，可以使用 `make kernel_menuconfig`。
+
+### 6. 下载源码
+
+```bash
+make download -j8
+```
+
+> [!IMPORTANT]
+> 请务必执行此步骤，以确保所有软件包源码完整且哈希校验通过。
+
+### 7. 开始编译
+
+```bash
+make -j$(nproc) || make -j1 V=s
+```
+
+编译完成后，固件文件将位于 `bin/targets/mediatek/mt7986/` (或 mt7981) 目录下。
