@@ -140,11 +140,7 @@
 		phy-mode = "2500base-x";
 		nvmem-cell-names = "mac-address";
 		nvmem-cells = <&macaddr_factory_24>;
-		fixed-link {
-                        speed = <2500>;
-                        full-duplex;
-                        paus;
-                };
+		phy-handle = <&phy15>;
 	};
 
 	gmac1: mac@1 {
@@ -158,18 +154,14 @@
 &mdio_bus {
 	phy15: phy@15 {
 		reg = <15>;
-
-		airoha,polarity = <3>;
-
+		airoha,pnswap-rx;
 		interrupt-parent = <&pio>;
 		interrupts = <38 IRQ_TYPE_EDGE_FALLING>;
 		reset-gpios = <&pio 39 GPIO_ACTIVE_LOW>;
 		reset-assert-us = <10000>;
 		reset-deassert-us = <20000>;
-
 		phy-mode = "2500base-x";
-		full-duplex;
-		pause;
+		airoha,phy-handle;
 	};
 };
 

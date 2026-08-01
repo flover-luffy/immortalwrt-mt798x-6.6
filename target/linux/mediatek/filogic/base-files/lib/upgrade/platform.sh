@@ -68,14 +68,16 @@ platform_do_upgrade() {
 	case "$board" in
 	netcore,n60-pro|\
 	tplink,tl-xdr4288|\
-        tplink,tl-xdr6086|\
-        tplink,tl-xdr6088|\
+    tplink,tl-xdr6086|\
+    tplink,tl-xdr6088|\
+	tplink,wma301|\
+	tplink,wma301-stock|\
 	xiaomi,redmi-router-ax6000-ubootmod|\
 	xiaomi,mi-router-ax3000t-ubootmod|\
-        xiaomi,mi-router-wr30u-ubootmod|\
+    xiaomi,mi-router-wr30u-ubootmod|\
 	h3c,magic-nx30-pro|\
 	jcg,q30-pro|\
-        qihoo,360t7)
+    qihoo,360t7)
 		CI_UBIPART="ubi"
     		CI_KERNPART="kernel"
       		CI_ROOTPART="rootfs"
@@ -106,7 +108,10 @@ platform_do_upgrade() {
 	openwrt,one|\
 	netcore,n60|\
 	routerich,ax3000-ubootmod|\
+	ruijie,ew-6000gx-pro-ubootmod|\
+	ruijie,rg-x60-new-ubootmod|\
 	tplink,tl-xtr8488|\
+	tplink,wma301-ubootmod|\
 	wirelesstag,zx7981pd-ubootmod|\
 	zyxel,ex5601-t0-ubootmod)
 		fit_do_upgrade "$1"
@@ -115,7 +120,6 @@ platform_do_upgrade() {
 	acer,predator-w6d|\
 	acer,vero-w6m|\
 	arcadyan,mozart|\
-	clx,s20p|\
 	glinet,gl-mt2500|\
 	glinet,gl-mt6000|\
 	glinet,gl-x3000|\
@@ -125,14 +129,17 @@ platform_do_upgrade() {
 	*Airpi*|\
 	cmcc,rax3000m-emmc|\
 	bt,r320|\
+	bt,rb300|\
 	philips,hy3000|\
 	sl,3000-emmc|\
+	sn,r1|\
 	smartrg,sdg-8612|\
 	smartrg,sdg-8614|\
 	smartrg,sdg-8622|\
 	smartrg,sdg-8632|\
 	smartrg,sdg-8733|\
 	smartrg,sdg-8733a|\
+	supergateway,s20*|\
 	huasifei,wh3000-pro|\
 	umi,uax3000e|\
  	jdcloud,re-cp-03|\
@@ -166,6 +173,12 @@ platform_do_upgrade() {
 		CI_UBIPART="ubi0"
 		nand_do_upgrade "$1"
 		;;
+	nradio,c8-668gl)
+		CI_DATAPART="rootfs_data"
+		CI_KERNPART="kernel_2nd"
+		CI_ROOTPART="rootfs_2nd"
+		emmc_do_upgrade "$1"
+		;;	
 	ubnt,unifi-6-plus)
 		CI_KERNPART="kernel0"
 		EMMC_ROOT_DEV="$(cmdline_get_var root)"
@@ -222,6 +235,17 @@ platform_check_image() {
 		}
 		return 0
 		;;
+	nradio,c8-668gl)
+		# tar magic `ustar`
+		magic="$(dd if="$1" bs=1 skip=257 count=5 2>/dev/null)"
+
+		[ "$magic" != "ustar" ] && {
+			echo "Invalid image type."
+			return 1
+		}
+
+		return 0
+		;;	
 	*)
 		nand_do_platform_check "$board" "$1"
 		return $?
@@ -239,7 +263,6 @@ platform_copy_config() {
 	acer,predator-w6d|\
 	acer,vero-w6m|\
 	arcadyan,mozart|\
-	clx,s20p|\
 	glinet,gl-mt2500|\
 	glinet,gl-mt6000|\
 	glinet,gl-x3000|\
@@ -249,7 +272,10 @@ platform_copy_config() {
 	philips,hy3000|\
 	jdcloud,re-cp-03|\
 	sl,3000-emmc|\
+	nradio,c8-668gl|\
 	bt,r320|\
+	bt,rb300|\
+	sn,r1|\
 	smartrg,sdg-8612|\
 	smartrg,sdg-8614|\
 	smartrg,sdg-8622|\
@@ -257,6 +283,7 @@ platform_copy_config() {
 	smartrg,sdg-8733|\
 	smartrg,sdg-8733a|\
 	smartrg,sdg-8734|\
+	supergateway,s20*|\
 	huasifei,wh3000-pro|\
 	umi,uax3000e|\
 	ubnt,unifi-6-plus)

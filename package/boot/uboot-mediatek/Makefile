@@ -243,6 +243,18 @@ define U-Boot/mt7981_cetron_ct3003
   DEPENDS:=+trusted-firmware-a-mt7981-spim-nand-ddr3
 endef
 
+define U-Boot/mt7981_tplink_wma301
+  NAME:=TP-Link WMA301
+  BUILD_SUBTARGET:=filogic
+  BUILD_DEVICES:=tplink_wma301-ubootmod
+  UBOOT_CONFIG:=mt7981_tplink_wma301
+  UBOOT_IMAGE:=u-boot.fip
+  BL2_BOOTDEV:=spim-nand
+  BL2_SOC:=mt7981
+  BL2_DDRTYPE:=ddr3
+  DEPENDS:=+trusted-firmware-a-mt7981-spim-nand-ddr3
+endef
+
 define U-Boot/mt7981_cmcc_a10
   NAME:=CMCC A10
   BUILD_SUBTARGET:=filogic
@@ -265,6 +277,18 @@ define U-Boot/mt7981_bt_r320
   BL2_SOC:=mt7981
   BL2_DDRTYPE:=ddr4
   DEPENDS:=+trusted-firmware-a-mt7981-emmc-ddr4
+endef
+
+define U-Boot/mt7981_bt_rb300
+  NAME:=BT RB300
+  BUILD_SUBTARGET:=filogic
+  BUILD_DEVICES:=bt_rb300
+  UBOOT_CONFIG:=mt7981_bt_rb300
+  UBOOT_IMAGE:=u-boot.fip
+  BL2_BOOTDEV:=spim-nand
+  BL2_SOC:=mt7981
+  BL2_DDRTYPE:=ddr3
+  DEPENDS:=+trusted-firmware-a-mt7981-spim-nand-ddr3
 endef
 
 define U-Boot/mt7981_cmcc_rax3000m-emmc
@@ -664,6 +688,18 @@ define U-Boot/mt7981_xiaomi_mi-router-wr30u
   DEPENDS:=+trusted-firmware-a-mt7981-spim-nand-ddr3
 endef
 
+define U-Boot/mt7981_zbtlink_zbt-z8103ax-c
+  NAME:=Zbtlink ZBT-Z8103AX-C
+  BUILD_SUBTARGET:=filogic
+  BUILD_DEVICES:=zbtlink_zbt-z8103ax-c-ubootmod
+  UBOOT_CONFIG:=mt7981_zbtlink_zbt-z8103ax-c
+  UBOOT_IMAGE:=u-boot.fip
+  BL2_BOOTDEV:=spim-nand
+  BL2_SOC:=mt7981
+  BL2_DDRTYPE:=ddr3
+  DEPENDS:=+trusted-firmware-a-mt7981-spim-nand-ddr3
+endef
+
 define U-Boot/mt7986_rfb
   NAME:=MT7986 Reference Board
   BUILD_SUBTARGET:=filogic
@@ -807,6 +843,30 @@ define U-Boot/mt7986_netcore_n60-pro
   BL2_SOC:=mt7986
   BL2_DDRTYPE:=ddr4
   DEPENDS:=+trusted-firmware-a-mt7986-spim-nand-ddr4
+endef
+
+define U-Boot/mt7986_ruijie_ew-6000gx-pro
+  NAME:=Ruijie EW-6000GX Pro
+  BUILD_SUBTARGET:=filogic
+  BUILD_DEVICES:=ruijie_ew-6000gx-pro-ubootmod
+  UBOOT_CONFIG:=mt7986_ruijie_ew-6000gx-pro
+  UBOOT_IMAGE:=u-boot.fip
+  BL2_BOOTDEV:=spim-nand
+  BL2_SOC:=mt7986
+  BL2_DDRTYPE:=ddr3
+  DEPENDS:=+trusted-firmware-a-mt7986-spim-nand-ddr3
+endef
+
+define U-Boot/mt7986_ruijie_rg-x60-new
+  NAME:=Ruijie RG-X60 New
+  BUILD_SUBTARGET:=filogic
+  BUILD_DEVICES:=ruijie_rg-x60-new-ubootmod
+  UBOOT_CONFIG:=mt7986_ruijie_rg-x60-new
+  UBOOT_IMAGE:=u-boot.fip
+  BL2_BOOTDEV:=spim-nand
+  BL2_SOC:=mt7986
+  BL2_DDRTYPE:=ddr3
+  DEPENDS:=+trusted-firmware-a-mt7986-spim-nand-ddr3
 endef
 
 define U-Boot/mt7986_tplink_tl-xdr4288
@@ -1048,6 +1108,7 @@ UBOOT_TARGETS := \
 	mt7629_rfb \
 	mt7981_abt_asr3000 \
 	mt7981_cetron_ct3003 \
+  mt7981_tplink_wma301 \
 	mt7981_cmcc_a10 \
 	mt7981_cmcc_rax3000m-emmc \
 	mt7981_cmcc_rax3000m-nand \
@@ -1081,6 +1142,7 @@ UBOOT_TARGETS := \
 	mt7981_qihoo_360t7 \
 	mt7981_xiaomi_mi-router-ax3000t \
 	mt7981_xiaomi_mi-router-wr30u \
+  mt7981_zbtlink_zbt-z8103ax-c \
   mt7981_wirelesstag_zx7981pd \
 	mt7986_bananapi_bpi-r3-emmc \
 	mt7986_bananapi_bpi-r3-sdmmc \
@@ -1093,6 +1155,8 @@ UBOOT_TARGETS := \
 	mt7986_mercusys_mr90x-v1 \
 	mt7986_netcore_n60 \
 	mt7986_netcore_n60-pro \
+  mt7986_ruijie_ew-6000gx-pro \
+  mt7986_ruijie_rg-x60-new \
 	mt7986_tplink_tl-xdr4288 \
 	mt7986_tplink_tl-xdr6086 \
 	mt7986_tplink_tl-xdr6088 \
