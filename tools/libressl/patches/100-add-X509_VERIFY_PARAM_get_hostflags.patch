@@ -1,0 +1,46 @@
+--- a/crypto/x509/x509_vpm.c
++++ b/crypto/x509/x509_vpm.c
+@@ -565,6 +565,13 @@
+ 	param->id->hostflags = flags;
+ }
+ LCRYPTO_ALIAS(X509_VERIFY_PARAM_set_hostflags);
++
++unsigned int
++X509_VERIFY_PARAM_get_hostflags(X509_VERIFY_PARAM *param)
++{
++	return param->id->hostflags;
++}
++LCRYPTO_ALIAS(X509_VERIFY_PARAM_get_hostflags);
+ 
+ char *
+ X509_VERIFY_PARAM_get0_peername(X509_VERIFY_PARAM *param)
+--- a/include/openssl/x509_vfy.h
++++ b/include/openssl/x509_vfy.h
+@@ -454,6 +454,7 @@
+     size_t namelen);
+ void X509_VERIFY_PARAM_set_hostflags(X509_VERIFY_PARAM *param,
+     unsigned int flags);
++unsigned int X509_VERIFY_PARAM_get_hostflags(X509_VERIFY_PARAM *param);
+ char *X509_VERIFY_PARAM_get0_peername(X509_VERIFY_PARAM *param);
+ int X509_VERIFY_PARAM_set1_email(X509_VERIFY_PARAM *param,  const char *email,
+     size_t emaillen);
+--- a/crypto/crypto.sym
++++ b/crypto/crypto.sym
+@@ -3366,6 +3366,7 @@
+ X509_VERIFY_PARAM_get_count
+ X509_VERIFY_PARAM_get_depth
+ X509_VERIFY_PARAM_get_flags
++X509_VERIFY_PARAM_get_hostflags
+ X509_VERIFY_PARAM_get_time
+ X509_VERIFY_PARAM_inherit
+ X509_VERIFY_PARAM_lookup
+--- a/crypto/hidden/openssl/x509_vfy.h
++++ b/crypto/hidden/openssl/x509_vfy.h
+@@ -144,6 +144,7 @@
+ LCRYPTO_USED(X509_VERIFY_PARAM_set1_host);
+ LCRYPTO_USED(X509_VERIFY_PARAM_add1_host);
+ LCRYPTO_USED(X509_VERIFY_PARAM_set_hostflags);
++LCRYPTO_USED(X509_VERIFY_PARAM_get_hostflags);
+ LCRYPTO_USED(X509_VERIFY_PARAM_get0_peername);
+ LCRYPTO_USED(X509_VERIFY_PARAM_set1_email);
+ LCRYPTO_USED(X509_VERIFY_PARAM_set1_ip);
